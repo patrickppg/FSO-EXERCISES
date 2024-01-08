@@ -3,7 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
-import axios from 'axios'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState({})
 
   useEffect(() => {
     personService.get()
@@ -40,13 +41,30 @@ const App = () => {
         const changedPerson = {...personFound, number: newNumber}
         personService.update(personFound, changedPerson)
           .then((response) => {
-            setPersons(persons.map((p) => p.id !== personFound.id ? p : response))
+            setPersons(persons.map((p) => p.id !== personFound.id ? p : response.data))
+            document.querySelector('[name=name]').focus()
+            setNewName('')
+            setNewNumber('')
+            setNotification({
+              message: `phone number of ${personFound.name} was updated!`,
+              status: 'success'
+            })
+            setTimeout(() => {
+              setNotification({})
+            }, 5000);
           })
+          .catch((error) => {
+            setNotification({
+              message: `Information of ${personFound.name} has already been removed from the server`,
+              status: 'fail'
+            })
+            setTimeout(() => {
+              setNotification({})
+            }, 5000);
+            setPersons(persons.filter((p) => p.id !== personFound.id))
+          })
+        
 
-        document.querySelector('[name=name]').focus()
-        setNewName('')
-        setNewNumber('')
-      
       }
 
       document.querySelector('[name=name]').focus()
@@ -64,6 +82,13 @@ const App = () => {
     personService.create(newPersonObject)
       .then((returnPerson) => setPersons(persons.concat(returnPerson)))
 
+    setNotification({
+      message: `${newName} was added!`,
+      status: 'success'
+    })  
+    setTimeout(() => {
+      setNotification({})
+    }, 5000);
     document.querySelector('[name=name]').focus()
     setNewName('')
     setNewNumber('')
@@ -71,9 +96,8 @@ const App = () => {
 
   function deletePerson(person) {
     if (!confirm(`Delete ${person.name}?`)) return 
-    personService.remove(person.id)
+    personService.remove(person)  
     setPersons(persons.filter((p) => p.id !== person.id))
-    
   }
 
   const personsToShow = !filter ? persons : persons.filter((person) => {
@@ -83,6 +107,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification notification={notification} />
       <Filter filter={filter} onChange={handleFilterChange} />
       <h2>Add a new</h2>
       <PersonForm

@@ -14,13 +14,12 @@ function create(newObject) {
   return request.then((response) => response.data)
 }
 
-function remove(id) {
-  axios.delete(`http://localhost:3001/persons/${id}`)
+function remove(person) {
+  axios.delete(`http://localhost:3001/persons/${person.id}`)
 }
 
 function update(personFound, changedPerson) {
-  const request = axios.put(`http://localhost:3001/persons/${personFound.id}`, changedPerson)
-  return request.then(response => response.data) 
+  return axios.put(`http://localhost:3001/persons/${personFound.id}`, changedPerson)
 }
 
 export default {create, get, remove, update}
