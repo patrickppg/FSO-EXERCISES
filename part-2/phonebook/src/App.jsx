@@ -80,18 +80,22 @@ const App = () => {
     }
 
     personService.create(newPersonObject)
-      .then((returnPerson) => setPersons(persons.concat(returnPerson)))
+      .then((returnPerson) => {
+        setPersons(persons.concat(returnPerson))
 
-    setNotification({
-      message: `${newName} was added!`,
-      status: 'success'
-    })  
-    setTimeout(() => {
-      setNotification({})
-    }, 5000);
-    document.querySelector('[name=name]').focus()
-    setNewName('')
-    setNewNumber('')
+        setNotification({
+          message: `${newName} was added!`,
+          status: 'success'
+        })  
+
+        setTimeout(() => {
+          setNotification({})
+        }, 5000);
+
+        document.querySelector('[name=name]').focus()
+        setNewName('')
+        setNewNumber('')    
+      })
   }
 
   function deletePerson(person) {
