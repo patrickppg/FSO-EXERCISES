@@ -1,9 +1,4 @@
 const mongoose = require('mongoose')
-require('dotenv').config()
-
-const mongoUrl = process.env.MONGODB_URI
-mongoose.set('strictQuery', false)
-mongoose.connect(mongoUrl)
 
 const blogSchema = new mongoose.Schema({
   title: String,
