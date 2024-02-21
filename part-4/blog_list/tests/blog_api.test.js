@@ -115,6 +115,31 @@ test('a blog can be deleted from the db', async () => {
   assert(! await Blog.findById(blog.id))
 })
 
+test('a blog can be updated', async () => {
+  const retBlog = await Blog.findOne()
+  const blog = retBlog.toJSON()
+
+  const newBlog = {
+    title: "title",
+    author: "author",
+    url: "url",
+    likes: 100,
+  }
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${blog.id}`)
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert(
+    newBlog.title === updatedBlog.body.title &&
+    newBlog.author === updatedBlog.body.author &&
+    newBlog.url === updatedBlog.body.url &&
+    newBlog.likes === updatedBlog.body.likes
+  )
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
