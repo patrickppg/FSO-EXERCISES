@@ -76,6 +76,22 @@ test('returned saved blog has an id property', async () => {
   assert(res.body.id)
 })
 
+test('if the likes property is missing from the request, it defaults to 0', async () => {
+  const newBlog = {
+    title: "Canonical string reduction",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+  }
+
+  const res = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(res.body.likes, 0)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
