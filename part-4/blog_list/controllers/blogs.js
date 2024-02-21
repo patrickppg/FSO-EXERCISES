@@ -27,4 +27,13 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    await Blog.findByIdAndDelete(req.params.id)
+    res.status(204).end()
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

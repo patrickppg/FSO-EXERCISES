@@ -104,6 +104,17 @@ test('if the properties title or url are missing from the request, the response 
     .expect(400)
 })
 
+test('a blog can be deleted from the db', async () => {
+  const retBlog = await Blog.findOne()
+  const blog = retBlog.toJSON()
+
+  await api
+    .delete(`/api/blogs/${blog.id}`)
+    .expect(204)
+
+  assert(! await Blog.findById(blog.id))
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
