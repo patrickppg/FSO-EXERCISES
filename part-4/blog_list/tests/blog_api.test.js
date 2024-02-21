@@ -24,9 +24,9 @@ const initialBlogs = [
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  initialBlogs.forEach(async (blog) => {
-    await new Blog(blog).save()
-  })
+  const newBlogs = initialBlogs.map(blog => new Blog(blog))
+  const promiseArray = newBlogs.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 test('blogs are returned as json', async () => {
@@ -37,8 +37,26 @@ test('blogs are returned as json', async () => {
 })
 
 test('all blogs are returned', async () => {
-  const response = await api.get('/api/blogs')
-  assert.strictEqual(response.body.length, initialBlogs.length)
+  const res = await api.get('/api/blogs')
+  assert.strictEqual(res.body.length, initialBlogs.length)
+})
+
+test('a blog can be added to the db', async () => {
+  const newBlog = {
+    title: "Canonical string reduction",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 12,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const res = await api.get('/api/blogs')
+  assert.strictEqual(res.body.length, initialBlogs.length + 1)
 })
 
 test('returned saved blog has an id property', async () => {

@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const body = req.body
 
   const blog = new Blog({
@@ -19,10 +19,8 @@ router.post('/', (req, res) => {
     likes: body.likes
   })
 
-  blog.save()
-    .then(createdBlog => {
-      res.status(201).json(createdBlog)
-    })
+  const createdBlog = await blog.save()
+  res.status(201).json(createdBlog)
 })
 
 module.exports = router
