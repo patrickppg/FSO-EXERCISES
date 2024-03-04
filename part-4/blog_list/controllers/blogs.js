@@ -2,6 +2,16 @@ const express = require('express')
 const router = express.Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
+function getTokenFromRequest(req) {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  else return null
+}
 
 router.use(express.json())
 
@@ -12,24 +22,31 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res, next) => {
   const body = req.body
-  const user = await User.findOne({})
-
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes ?? 0,
-    user: user.id
-  })
-
   try {
-    const createdBlog = await blog.save()
-    user.blogs.push(createdBlog._id)
-    await user.save()
-    res.status(201).json(createdBlog)
-  } catch (err) {
-    next(err)
-  }
+    const decodedToken = jwt.verify(getTokenFromRequest(req), process.env.SECRET)
+
+    if (!decodedToken.id) {
+      res.status(401).json({ error: 'invalid token' })
+      return
+    }
+
+    const user = await User.findById(decodedToken.id)
+
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes ?? 0,
+      user: user.id
+    })
+
+      const createdBlog = await blog.save()
+      user.blogs.push(createdBlog._id)
+      await user.save()
+      res.status(201).json(createdBlog)
+    } catch (err) {
+        next(err)
+      }
 })
 
 router.delete('/:id', async (req, res, next) => {

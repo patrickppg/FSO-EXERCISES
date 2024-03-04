@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBldGVyc29ucGciLCJpZCI6IjY1ZTVmOWMyZjYzYmU0YTQ2ZDA4Y2U4NSIsImlhdCI6MTcwOTU4NTEwNSwiZXhwIjoxNzA5NTg4NzA1fQ.-PCtnxQVz8HJQ9F0YBUXVimjihCdKI0w-CnyU-Wv5mQ
 
 {
-  "title": "React patterns",
-  "author": "Michael Chan",
-  "url": "https://reactpatterns.com/",
-  "likes": 7
+  "title": "Canonical string reduction",
+  "author": "Edsger W. Dijkstra",
+  "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+  "likes": 12
 }
