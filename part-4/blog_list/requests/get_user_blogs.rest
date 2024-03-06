@@ -1,0 +1,2 @@
+GET http://localhost:3003/api/blogs/patrickpg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdHJpY2twZyIsImlkIjoiNjVlNWY1ZDRlY2I4ZTNmMmQ0MmNlMWVkIiwiaWF0IjoxNzA5NzQ0MTE5LCJleHAiOjE3MDk3NDc3MTl9.1DIZByjQg9W3ctLAFMXNdY09gO-c0RMqQafLE_RteuI

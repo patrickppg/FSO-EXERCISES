@@ -20,6 +20,18 @@ router.get('/', async (req, res) => {
   res.json(blogs)
 })
 
+router.get('/:username', async (req, res) => {
+  const decodedToken = jwt.verify(getTokenFromRequest(req), process.env.SECRET)
+  
+  if (!decodedToken.id) {
+    res.status(401).json({ error: 'invalid token' })
+    return
+  }
+
+  const user = await User.findOne({ username: req.params.username }).populate('blogs', { title: 1, author: 1 })
+  res.json(user)
+})
+
 router.post('/', async (req, res, next) => {
   const body = req.body
   try {

@@ -7,10 +7,12 @@ const bcrypt = require('bcrypt')
 router.use(express.json())
 router.use(cors())
 
+
 router.get('/', async (req, res) => {
   const users = await User.find({}).populate('blogs', { url: 1, title: 1, author: 1 })
   res.json(users)
 })
+
 
 router.post('/', async (req, res) => {
   const { name, username, password } = req.body
