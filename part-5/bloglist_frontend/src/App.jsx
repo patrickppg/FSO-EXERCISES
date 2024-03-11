@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import LoginForm from './components/LoginForm'
+import Blogs from './components/blogs'
 import blogService from './services/blogs'
+import loginService from './services/login'
 
 function App() {
   const [blogs, setBlogs] = useState([])
@@ -9,60 +11,57 @@ function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+    const loggedUserJSON = window.localStorage.getItem('loggedBloglistAppUser')
+
+    if (loggedUserJSON) {
+      const loggedUser = JSON.parse(loggedUserJSON)
+      setUser(loggedUser)
+      blogService.setToken(loggedUser.token)
+    }
+}, [])
+
+  useEffect(() => {
+    if (user) {
+      blogService.getUserBlogs(user)
+        .then(blogs => setBlogs(blogs))
+    }
+  }, [user])
 
   async function handleLogin(e) {
     e.preventDefault()
 
-    const user = await blogService.login({ username, password })
-    const blogs = await blogService.getUser(user)
-    setBlogs(blogs)
+    const user = await loginService.login({ username, password })
+    blogService.setToken(user.token)
+    window.localStorage.setItem('loggedBloglistAppUser', JSON.stringify(user))
+    blogService.getUserBlogs(user)
+      .then(userBlogs => setBlogs(userBlogs))
+
     setUser(user)
+    
     setUsername('')
     setPassword('')
   }
 
-  if (user === null) {
-    return (
-      <div>
-        <h2>Log in to application</h2>
-        <form onSubmit={handleLogin}>
-        <div>
-          username: 
-          <input
-            type="text"
-            name='Username'
-            value={username}
-            onChange={({target}) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password: 
-          <input
-            type="password"
-            name='Password'
-            value={password}
-            onChange={({target}) => setPassword(target.value)}
-          />
-        </div>
-        <button>login</button>
-      </form>
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        <h2>blogs</h2>
-        <p>{user.name} logged in</p>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
-      </div>
-    )
-  }
+  return (
+    user === null
+      ? <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
+        />
+      : <Blogs
+          user={user}
+          blogs={blogs}
+          setUser={setUser}
+        />
+  )
+  
 }
 
 export default App
+
+
+
+
