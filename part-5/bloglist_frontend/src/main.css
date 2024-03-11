@@ -1,0 +1,26 @@
+.notification--success, .notification--fail {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  right: 50px
+}
+
+.notification--success {
+  color: green;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.notification--fail {
+color: red;
+background: lightgrey;
+font-size: 20px;
+border-style: solid;
+border-radius: 5px;
+padding: 10px;
+margin-bottom: 10px;
+}

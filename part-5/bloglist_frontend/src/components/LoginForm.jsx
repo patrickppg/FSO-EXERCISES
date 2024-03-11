@@ -1,7 +1,10 @@
-function LoginForm({ handleLogin, username, password, setUsername, setPassword }) {
+import Notification from "./Notification"
+
+function LoginForm({ handleLogin, username, password, setUsername, setPassword, notification }) {
   return (
     <div>
       <h2>Log in to application</h2>
+      <Notification notification={notification} />
       <form onSubmit={handleLogin}>
         <div>
           username: 
