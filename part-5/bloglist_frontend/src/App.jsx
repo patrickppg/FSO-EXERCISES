@@ -55,6 +55,7 @@ function App() {
           user={user}
           blogs={blogs}
           setUser={setUser}
+          setBlogs={setBlogs}
         />
   )
   

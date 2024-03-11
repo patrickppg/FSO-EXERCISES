@@ -21,4 +21,19 @@ function getUserBlogs(user) {
   return res.then(res => res.data.blogs)
 }
 
-export default { getAll, getUserBlogs, setToken }
+async function create(newBlog) {
+  const res = await axios.post(baseUrl, newBlog, {
+    headers: {
+      'Authorization': token
+    }
+  })
+
+  return res.data
+}
+
+export default {
+  getAll,
+  getUserBlogs,
+  setToken,
+  create
+}
