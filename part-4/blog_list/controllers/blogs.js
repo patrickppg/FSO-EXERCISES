@@ -28,7 +28,7 @@ router.get('/:username', async (req, res) => {
     return
   }
 
-  const user = await User.findOne({ username: req.params.username }).populate('blogs', { title: 1, author: 1 })
+  const user = await User.findOne({ username: req.params.username }).populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
   res.json(user)
 })
 
