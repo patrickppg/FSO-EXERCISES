@@ -1,5 +1,6 @@
 import Blog from "./Blog"
 import NewBlogForm from "./newBlogForm"
+import Togglable from "./Togglable"
 
 function Blogs({ user, blogs, setUser, setBlogs, notification, setNotification }) {
 
