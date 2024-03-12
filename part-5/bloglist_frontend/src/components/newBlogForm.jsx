@@ -3,6 +3,7 @@ import blogService from "../services/blogs"
 import Notification from "./Notification"
 import Togglable from "./Togglable"
 
+// component already extracted in a previous exercise
 function NewBlogForm({ user, setBlogs, notification, setNotification }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
