@@ -16,7 +16,7 @@ function getTokenFromRequest(req) {
 router.use(express.json())
 
 router.get('/', async (req, res) => {
-  const blogs = await Blog.find({}).populate('user', { name: 1, username: 1 })
+  const blogs = await Blog.find({}).populate('user')
   res.json(blogs)
 })
 
@@ -71,25 +71,29 @@ router.delete('/:id', async (req, res, next) => {
 })
 
 router.put('/:id', async (req, res, next) => {
-  try {
-    const body = req.body
-    const blog = {
-      title: body.title,
-      author: body.author,
-      url: body.url,
-      likes: body.likes ?? 0
-    }
-    
-    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
-      new: true,
-      runValidators: true,
-      context: 'query'
-    })
-    
-    res.status(200).json(updatedBlog)
-  } catch (err) {
-    next(err)
+  const body = req.body
+
+  const decodedToken = jwt.verify(getTokenFromRequest(req), process.env.SECRET)
+
+  if (!decodedToken.id) {
+    res.status(401).json({ error: 'invalid token' })
+    return
   }
+
+  const blog = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes ?? 0,
+  }
+  
+  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
+    new: true,
+    runValidators: true,
+    context: 'query'
+  })
+
+  res.status(200).json(updatedBlog)
 })
 
 module.exports = router

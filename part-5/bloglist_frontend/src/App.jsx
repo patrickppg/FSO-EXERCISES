@@ -26,7 +26,7 @@ function App() {
       blogService.getUserBlogs(user)
         .then(blogs => setBlogs(blogs))
     }
-  }, [user])
+  })
 
   async function handleLogin(e) {
     e.preventDefault()
