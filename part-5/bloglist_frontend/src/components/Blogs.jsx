@@ -14,7 +14,7 @@ function Blogs({ user, blogs, setUser, setBlogs, notification, setNotification }
     <h2>blogs</h2>
     <p>{user.name} logged in <button onClick={handleLogOut}>logout</button></p>
     <NewBlogForm user={user} setBlogs={setBlogs} notification={notification} setNotification={setNotification} />
-    {blogs.map(blog =>
+    {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
       <Blog key={blog.id} blog={blog} />
     )}
   </div>
