@@ -36,6 +36,7 @@ function Blog({ blog }) {
         <div>{blog.url}</div>
         <div>{likes} <button type="button" onClick={handleLikeClick}>like</button></div>
         <div>{blog.author}</div>
+        {/* there is no problem here - step 9 */}
       </div>
     </div>  
   )
