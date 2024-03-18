@@ -1,6 +1,5 @@
-import Blog from "./Blog"
-import NewBlogForm from "./newBlogForm"
-import Togglable from "./Togglable"
+import Blog from './Blog'
+import NewBlogForm from './newBlogForm'
 
 function Blogs({ user, blogs, setUser, setBlogs, notification, setNotification }) {
 
@@ -11,13 +10,13 @@ function Blogs({ user, blogs, setUser, setBlogs, notification, setNotification }
 
   return (
     <div>
-    <h2>blogs</h2>
-    <p>{user.name} logged in <button onClick={handleLogOut}>logout</button></p>
-    <NewBlogForm user={user} setBlogs={setBlogs} notification={notification} setNotification={setNotification} />
-    {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-      <Blog key={blog.id} blog={blog} />
-    )}
-  </div>
+      <h2>blogs</h2>
+      <p>{user.name} logged in <button onClick={handleLogOut}>logout</button></p>
+      <NewBlogForm user={user} setBlogs={setBlogs} notification={notification} setNotification={setNotification} />
+      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
+    </div>
   )
 }
 

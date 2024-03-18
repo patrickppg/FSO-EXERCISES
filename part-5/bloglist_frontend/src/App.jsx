@@ -19,7 +19,7 @@ function App() {
       setUser(loggedUser)
       blogService.setToken(loggedUser.token)
     }
-}, [])
+  }, [])
 
   useEffect(() => {
     if (user) {
@@ -32,15 +32,13 @@ function App() {
     e.preventDefault()
 
     try {
-      
       const user = await loginService.login({ username, password })
       blogService.setToken(user.token)
       window.localStorage.setItem('loggedBloglistAppUser', JSON.stringify(user))
       blogService.getUserBlogs(user)
-      .then(userBlogs => setBlogs(userBlogs))
-      
+        .then(userBlogs => setBlogs(userBlogs))
+
       setUser(user)
-      
       setUsername('')
       setPassword('')
     } catch (err) {
@@ -51,30 +49,29 @@ function App() {
 
       setTimeout(() => {
         setNotification({})
-      }, 4000);
+      }, 4000)
     }
   }
 
   return (
     user === null
       ? <LoginForm
-          handleLogin={handleLogin}
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-          notification={notification}
-        />
+        handleLogin={handleLogin}
+        username={username}
+        password={password}
+        setUsername={setUsername}
+        setPassword={setPassword}
+        notification={notification}
+      />
       : <Blogs
-          user={user}
-          blogs={blogs}
-          setUser={setUser}
-          setBlogs={setBlogs}
-          notification={notification}
-          setNotification={setNotification}
-        />
+        user={user}
+        blogs={blogs}
+        setUser={setUser}
+        setBlogs={setBlogs}
+        notification={notification}
+        setNotification={setNotification}
+      />
   )
-  
 }
 
 export default App

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 function Blog({ blog }) {
@@ -6,11 +6,11 @@ function Blog({ blog }) {
   const [likes, setLikes] = useState(blog.likes)
   const [removed, setRemoved] = useState(false)
 
-  const showWhenVisible = {display: visible ? "" : "none"}
+  const showWhenVisible = { display: visible ? '' : 'none' }
   const blogStyles = {
-    margin: "5px 0",
-    border: "solid 1px",
-    padding: "5px"
+    margin: '5px 0',
+    border: 'solid 1px',
+    padding: '5px'
   }
 
   function toggleVisibility() {
@@ -36,8 +36,8 @@ function Blog({ blog }) {
 
   return (
     removed
-    ? null
-    : <div style={blogStyles}>
+      ? null
+      : <div style={blogStyles}>
         <div>
           <span>{blog.title}</span>
           <button type="button" onClick={toggleVisibility}>view</button>
@@ -49,7 +49,7 @@ function Blog({ blog }) {
           <button type="button" onClick={handleRemoveClick}>remove</button>
           {/* there is no problem here - step 9 */}
         </div>
-      </div>  
+      </div>
   )
 }
 

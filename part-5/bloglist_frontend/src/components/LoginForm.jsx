@@ -1,4 +1,4 @@
-import Notification from "./Notification"
+import Notification from './Notification'
 
 function LoginForm({ handleLogin, username, password, setUsername, setPassword, notification }) {
   return (
@@ -7,21 +7,21 @@ function LoginForm({ handleLogin, username, password, setUsername, setPassword, 
       <Notification notification={notification} />
       <form onSubmit={handleLogin}>
         <div>
-          username: 
+          username:
           <input
             type="text"
             name='Username'
             value={username}
-            onChange={({target}) => setUsername(target.value)}
+            onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
-          password: 
+          password:
           <input
             type="password"
             name='Password'
             value={password}
-            onChange={({target}) => setPassword(target.value)}
+            onChange={({ target }) => setPassword(target.value)}
           />
         </div>
         <button>login</button>

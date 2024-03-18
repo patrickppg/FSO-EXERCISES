@@ -1,7 +1,7 @@
-import { useState, useRef } from "react"
-import blogService from "../services/blogs"
-import Notification from "./Notification"
-import Togglable from "./Togglable"
+import { useState, useRef } from 'react'
+import blogService from '../services/blogs'
+import Notification from './Notification'
+import Togglable from './Togglable'
 
 // component already extracted in a previous exercise
 function NewBlogForm({ user, setBlogs, notification, setNotification }) {
@@ -33,7 +33,7 @@ function NewBlogForm({ user, setBlogs, notification, setNotification }) {
     })
     setTimeout(() => {
       setNotification({})
-    }, 4000);
+    }, 4000)
   }
 
   return (
@@ -47,24 +47,24 @@ function NewBlogForm({ user, setBlogs, notification, setNotification }) {
             <input
               name="Title"
               value={title}
-              onChange={({target}) => setTitle(target.value)}
-              />
+              onChange={({ target }) => setTitle(target.value)}
+            />
           </div>
           <div>
             author:
             <input
               name="Author"
               value={author}
-              onChange={({target}) => setAuthor(target.value)}
-              />
+              onChange={({ target }) => setAuthor(target.value)}
+            />
           </div>
           <div>
             url:
             <input
               name="Url"
               value={url}
-              onChange={({target}) => setUrl(target.value)}
-              />
+              onChange={({ target }) => setUrl(target.value)}
+            />
           </div>
           <button>create</button>
         </form>
