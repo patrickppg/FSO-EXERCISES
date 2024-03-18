@@ -4,6 +4,7 @@ import blogService from '../services/blogs'
 function Blog({ blog }) {
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
+  const [removed, setRemoved] = useState(false)
 
   const showWhenVisible = {display: visible ? "" : "none"}
   const blogStyles = {
@@ -26,19 +27,29 @@ function Blog({ blog }) {
     setLikes(updatedBlog.likes)
   }
 
+  async function handleRemoveClick() {
+    const confirmation = window.confirm('This blog will be removed')
+    if (!confirmation) return
+    const removed = await blogService.remove(blog)
+    if (removed) setRemoved(true)
+  }
+
   return (
-    <div style={blogStyles}>
-      <div>
-        <span>{blog.title}</span>
-        <button type="button" onClick={toggleVisibility}>view</button>
-      </div>
-      <div style={showWhenVisible}>
-        <div>{blog.url}</div>
-        <div>{likes} <button type="button" onClick={handleLikeClick}>like</button></div>
-        <div>{blog.author}</div>
-        {/* there is no problem here - step 9 */}
-      </div>
-    </div>  
+    removed
+    ? null
+    : <div style={blogStyles}>
+        <div>
+          <span>{blog.title}</span>
+          <button type="button" onClick={toggleVisibility}>view</button>
+        </div>
+        <div style={showWhenVisible}>
+          <div>{blog.url}</div>
+          <div>{likes} <button type="button" onClick={handleLikeClick}>like</button></div>
+          <div>{blog.author}</div>
+          <button type="button" onClick={handleRemoveClick}>remove</button>
+          {/* there is no problem here - step 9 */}
+        </div>
+      </div>  
   )
 }
 

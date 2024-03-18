@@ -41,10 +41,17 @@ async function update(blog, update) {
   return res.data
 }
 
+async function remove(blog) {
+  const res = await axios.delete(`${baseUrl}/${blog.id}`)
+  if (res.status === 204) return true
+  else return false
+}
+
 export default {
   getAll,
   getUserBlogs,
   setToken,
   create,
-  update
+  update,
+  remove
 }
