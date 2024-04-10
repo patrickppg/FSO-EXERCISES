@@ -40,7 +40,7 @@ function Blog({ blog }) {
       : <div style={blogStyles}>
         <div data-testid='default-view'>
           <span>{blog.title}</span>
-          <button type="button" onClick={toggleVisibility}>view</button>
+          <button type="button" onClick={toggleVisibility} data-testid='view-btn'>view</button>
         </div>
         <div data-testid='details-view' style={showWhenVisible}>
           <div>{blog.url}</div>
