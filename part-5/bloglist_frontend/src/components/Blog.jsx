@@ -38,11 +38,11 @@ function Blog({ blog }) {
     removed
       ? null
       : <div style={blogStyles}>
-        <div>
+        <div data-testid='default-view'>
           <span>{blog.title}</span>
           <button type="button" onClick={toggleVisibility}>view</button>
         </div>
-        <div style={showWhenVisible}>
+        <div data-testid='details-view' style={showWhenVisible}>
           <div>{blog.url}</div>
           <div>{likes} <button type="button" onClick={handleLikeClick}>like</button></div>
           <div>{blog.author}</div>
